@@ -1,13 +1,37 @@
-async function predict(){
+const apiKey = "YOUR_API_KEY";
 
-let visibility = document.getElementById("vis").value
-let temperature = document.getElementById("temp").value
+async function getWeather() {
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(async (position) => {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
 
-let response = await fetch(`http://127.0.0.1:8000/predict?visibility=${visibility}&temperature=${temperature}`)
+            const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
 
-let data = await response.json()
+            const response = await fetch(url);
+            const data = await response.json();
 
-document.getElementById("result").innerText =
-"Accident Risk: " + data.risk
+            const temperature = data.main.temp;
+            const visibility = data.visibility / 1000;
 
+            document.getElementById("temperature").innerText = temperature + " °C";
+            document.getElementById("visibility").innerText = visibility + " km";
+
+            predictRisk(temperature, visibility);
+        });
+    }
 }
+
+function predictRisk(temp, visibility) {
+    let risk = "Low";
+
+    if (visibility < 3) {
+        risk = "High";
+    } else if (visibility < 6) {
+        risk = "Medium";
+    }
+
+    document.getElementById("riskResult").innerText = "Accident Risk: " + risk;
+}
+
+getWeather();
