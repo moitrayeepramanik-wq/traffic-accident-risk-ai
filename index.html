@@ -1,10 +1,61 @@
-<!DOCTYPE html>
-<html>
+<h2>Real-Time Weather Based Risk</h2>
 
-<head>
-<title>AI Traffic Accident Risk Predictor</title>
-<link rel="stylesheet" href="style.css">
-</head>
+<div>
+<p>Temperature: <span id="temperature">Loading...</span></p>
+<p>Visibility: <span id="visibility">Loading...</span></p>
+<p id="riskResult">Calculating accident risk...</p>
+</div>
+
+<script>
+
+const apiKey = "YOUR_API_KEY";
+
+function getWeatherData() {
+
+if (navigator.geolocation) {
+
+navigator.geolocation.getCurrentPosition(async function(position){
+
+const lat = position.coords.latitude;
+const lon = position.coords.longitude;
+
+const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric`;
+
+const response = await fetch(url);
+const data = await response.json();
+
+const temperature = data.main.temp;
+const visibility = data.visibility / 1000;
+
+document.getElementById("temperature").innerText = temperature + " °C";
+document.getElementById("visibility").innerText = visibility + " km";
+
+calculateRisk(temperature, visibility);
+
+});
+
+}
+
+}
+
+function calculateRisk(temp, visibility){
+
+let risk = "Low Risk";
+
+if(visibility < 3){
+risk = "High Risk";
+}
+else if(visibility < 6){
+risk = "Medium Risk";
+}
+
+document.getElementById("riskResult").innerText = "Accident Risk: " + risk;
+
+}
+
+getWeatherData();
+
+</script>
 
 <body>
 
