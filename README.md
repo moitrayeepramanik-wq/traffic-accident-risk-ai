@@ -14,6 +14,9 @@ We propose an AI-based Road Safety Agent that analyzes environmental conditions 
 - Safe driving recommendations
 - Simple web dashboard for users
 - Scalable architecture for smart city integration
+- Driver warning system
+- Time-based prediction
+- Smart recommendations
 
 ## Technical Approach
 Dataset → Data Processing → Machine Learning Model → Prediction API → Web Dashboard
