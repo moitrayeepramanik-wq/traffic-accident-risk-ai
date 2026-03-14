@@ -1,4 +1,4 @@
-# traffic-accident-risk-ai
+# AI Road Safety Agent for Accident Risk Prediction
 AI Traffic Accident Risk Prediction using Machine Learning
 # AI Road Safety Agent for Accident Risk Prediction
 
