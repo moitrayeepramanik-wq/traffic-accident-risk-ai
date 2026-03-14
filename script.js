@@ -35,3 +35,36 @@ function predictRisk(temp, visibility) {
 }
 
 getWeather();
+async function loadDataset(){
+
+const response = await fetch("project_history.csv")
+const text = await response.text()
+
+const rows = text.split("\n").slice(1)
+
+let output = ""
+
+rows.forEach(row => {
+
+const cols = row.split(",")
+
+const team_size = parseInt(cols[2])
+const completion_days = parseInt(cols[4])
+const success_score = parseFloat(cols[5])
+
+let risk = "Low Risk"
+
+if(success_score < 0.5){
+risk = "High Risk"
+}
+else if(success_score < 0.8){
+risk = "Medium Risk"
+}
+
+output += `<p>Team Size: ${team_size} | Completion Days: ${completion_days} → ${risk}</p>`
+
+})
+
+document.getElementById("datasetOutput").innerHTML = output
+
+}
